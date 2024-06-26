@@ -13,7 +13,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return response()->json($products, 200, ['message' => 'Get All Products Successfully!']);
+        return response()->json(['message' => 'Get All Products Successfully!', 'data' => $products], 200);
     }
 
     /**
@@ -27,39 +27,40 @@ class ProductController extends Controller
         ]);
 
         $product = Product::create($request->all());
-        return response()->json($product, 201, ['message' => 'Product Created Successfully!']);
+        return response()->json(['message' => 'Product Created Successfully!', 'data' => $product], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
         $product = Product::findOrFail($id);
-        return response()->json($product, 200, ['message' => 'Get Product Successfully!']);
+        return response()->json(['message' => 'Get Product Successfully!', 'data' => $product], 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'nama' => 'required',
             'stok' => 'required|numeric'
         ]);
 
-        $product = Product::findOrFail($id)->update($request->all());
-        return response()->json($product, 200, ['message' => 'Product Updated Successfully!']);
+        $product = Product::findOrFail($id);
+        $product->update($request->all());
+        return response()->json(['message' => 'Product Updated Successfully!'], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         $product = Product::findOrFail($id);
         $product->delete();
-        return response()->json(null, 204, ['message' => 'Product Deleted Successfully!']);
+        return response()->json(['message' => 'Product Deleted Successfully!'], 204);
     }
 }

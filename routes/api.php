@@ -19,10 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::controller(ProductController::class)->group(function () {
-    Route::get('/api/products', 'index');
-    Route::post('/api/products', 'store');
-    Route::get('/api/products/{id}', 'show');
-    Route::put('/api/products/{id}', 'update');
-    Route::delete('/api/products/{id}', 'destroy');
-});
+Route::apiResource('/products', ProductController::class);
